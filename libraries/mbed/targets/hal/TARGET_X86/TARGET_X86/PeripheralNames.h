@@ -13,33 +13,55 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "TimerEvent.h"
+#ifndef MBED_PERIPHERALNAMES_H
+#define MBED_PERIPHERALNAMES_H
+
 //#include "cmsis.h"
 
-#include <stddef.h>
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-namespace mbed {
+typedef enum {
+    OSC32KCLK = 0,
+    RTC_CLKIN = 2
+} RTCName;
 
-TimerEvent::TimerEvent() : event() {
-    us_ticker_set_handler((&TimerEvent::irq));
+typedef enum {
+    UART_0 = 0,
+    UART_1 = 1,
+    UART_2 = 2,
+} UARTName;
+
+typedef enum {
+    I2C_0 = 0,
+    I2C_1 = 1,
+} I2CName;
+
+typedef enum {
+    PWM_1  = 1,
+    PWM_2  = 2,
+    PWM_3  = 3,
+    PWM_4  = 4,
+} PWMName;
+
+typedef enum {
+    ADC0_SE0  =  0,
+    ADC0_SE3  =  3,
+} ADCName;
+
+typedef enum {
+    DAC_0 = 0
+} DACName;
+
+
+typedef enum {
+    SPI_0 = 0,
+    SPI_1 = 1,
+} SPIName;
+
+#ifdef __cplusplus
 }
+#endif
 
-void TimerEvent::irq(uint32_t id) {
-    TimerEvent *timer_event = (TimerEvent*)id;
-    timer_event->handler();
-}
-
-TimerEvent::~TimerEvent() {
-    remove();
-}
-
-// insert in to linked list
-void TimerEvent::insert(timestamp_t timestamp) {
-    us_ticker_insert_event(&event, timestamp, (uint32_t)this);
-}
-
-void TimerEvent::remove() {
-    us_ticker_remove_event(&event);
-}
-
-} // namespace mbed
+#endif

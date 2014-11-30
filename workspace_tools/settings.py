@@ -72,6 +72,9 @@ CW_EWL_PATH = "C:/Freescale/CW MCU v10.3/MCU/ARM_GCC_Support/ewl/lib"
 # Goanna static analyser. Please overload it in private_settings.py
 GOANNA_PATH = "c:/Program Files (x86)/RedLizards/Goanna Central 3.2.3/bin"
 
+# MinGW 
+MINGW32_PATH = ""
+
 # cppcheck path (command) and output message format
 CPPCHECK_CMD = ["cppcheck", "--enable=all"]
 CPPCHECK_MSG_FORMAT = ["--template=[{severity}] {file}@{line}: {id}:{message}"]

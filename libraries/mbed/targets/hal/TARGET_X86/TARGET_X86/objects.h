@@ -13,33 +13,46 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "TimerEvent.h"
+#ifndef MBED_OBJECTS_H
+#define MBED_OBJECTS_H
+
 //#include "cmsis.h"
+#include "PortNames.h"
+#include "PeripheralNames.h"
+#include "PinNames.h"
 
-#include <stddef.h>
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-namespace mbed {
+struct gpio_irq_s {
+};
 
-TimerEvent::TimerEvent() : event() {
-    us_ticker_set_handler((&TimerEvent::irq));
+struct port_s {
+};
+
+struct pwmout_s {
+};
+
+struct serial_s {
+};
+
+struct analogin_s {
+};
+
+struct dac_s {
+};
+
+struct i2c_s {
+};
+
+struct spi_s {
+};
+
+#include "gpio_object.h"
+
+#ifdef __cplusplus
 }
+#endif
 
-void TimerEvent::irq(uint32_t id) {
-    TimerEvent *timer_event = (TimerEvent*)id;
-    timer_event->handler();
-}
-
-TimerEvent::~TimerEvent() {
-    remove();
-}
-
-// insert in to linked list
-void TimerEvent::insert(timestamp_t timestamp) {
-    us_ticker_insert_event(&event, timestamp, (uint32_t)this);
-}
-
-void TimerEvent::remove() {
-    us_ticker_remove_event(&event);
-}
-
-} // namespace mbed
+#endif

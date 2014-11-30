@@ -38,6 +38,10 @@
 #   define STDOUT_FILENO    1
 #   define STDERR_FILENO    2
 
+#elif defined(TOOLCHAIN_MINGW32)
+#   define OPEN_MAX     16
+#   define PREFIX(x)    x
+
 #else
 #   include <sys/stat.h>
 #   include <sys/unistd.h>
@@ -301,7 +305,7 @@ extern "C" long PREFIX(_flen)(FILEHANDLE fh) {
 #endif
 
 
-#if !defined(__ARMCC_VERSION) && !defined(__ICCARM__)
+#if !defined(__ARMCC_VERSION) && !defined(__ICCARM__) && !defined(TOOLCHAIN_MINGW32)
 extern "C" int _fstat(int fd, struct stat *st) {
     if ((STDOUT_FILENO == fd) || (STDERR_FILENO == fd) || (STDIN_FILENO == fd)) {
         st->st_mode = S_IFCHR;

@@ -22,7 +22,8 @@ CORE_LABELS = {
     "Cortex-M3" : ["M3", "CORTEX_M"],
     "Cortex-M4" : ["M4", "CORTEX_M"],
     "Cortex-M4F" : ["M4", "CORTEX_M"],
-    "Cortex-A9" : ["A9", "CORTEX_A"]
+    "Cortex-A9" : ["A9", "CORTEX_A"],
+    "X86": ["X86"],
 }
 
 import os
@@ -762,7 +763,18 @@ class RZ_A1H(Target):
     def program_cycle_s(self):
         return 2
         
-
+## PC ##
+class X86(Target):
+    def __init__(self):
+        Target.__init__(self)
+        self.core = "X86"
+        self.extra_labels = ['X86']
+        self.supported_toolchains = ["MINGW32"]
+        self.default_toolchain = "MINGW32"
+        
+    def program_cycle_s(self):
+        return 2
+    
 
 # Get a single instance for each target
 TARGETS = [
@@ -845,6 +857,9 @@ TARGETS = [
 
     ### Renesas ###
     RZ_A1H(),
+
+    ## X86 ##
+    X86(),
 ]
 
 # Map each target name to its unique instance

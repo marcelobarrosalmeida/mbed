@@ -34,10 +34,15 @@ typedef int mode_t;
 typedef int ssize_t;
 typedef long off_t;
 
-#else
+#elif defined(TOOLCHAIN_MINGW32)
+#    include <sys/types.h> 
+#    define NAME_MAX 255
+
+#else 
+#    include <sys/types.h> 
 #    include <sys/fcntl.h>
-#    include <sys/types.h>
 #    include <sys/syslimits.h>
+#    define NAME_MAX 255
 #endif
 
 #include "platform.h"

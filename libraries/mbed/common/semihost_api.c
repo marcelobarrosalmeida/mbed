@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "cmsis.h"
+//#include "cmsis.h"
 #include "semihost_api.h"
 
 #include <stdint.h>

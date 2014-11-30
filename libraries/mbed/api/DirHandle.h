@@ -20,8 +20,11 @@
 #   define NAME_MAX 255
 typedef int mode_t;
 
+#elif defined(TOOLCHAIN_MINGW32)
+
 #else
-#   include <sys/syslimits.h>
+#    include <sys/syslimits.h>
+
 #endif
 
 #include "FileHandle.h"

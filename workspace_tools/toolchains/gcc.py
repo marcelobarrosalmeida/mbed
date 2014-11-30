@@ -19,7 +19,7 @@ from os.path import join, basename, splitext
 
 from workspace_tools.toolchains import mbedToolchain
 from workspace_tools.settings import GCC_ARM_PATH, GCC_CR_PATH, GCC_CS_PATH, CW_EWL_PATH, CW_GCC_PATH
-from workspace_tools.settings import GOANNA_PATH
+from workspace_tools.settings import GOANNA_PATH, MINGW32_PATH
 from workspace_tools.hooks import hook_tool
 
 class GCC(mbedToolchain):
@@ -40,7 +40,11 @@ class GCC(mbedToolchain):
         else:
             cpu = target.core.lower()
 
-        self.cpu = ["-mcpu=%s" % cpu]
+        if target.core == "X86":
+            self.cpu = []
+        else:
+            self.cpu = ["-mcpu=%s" % cpu]
+            
         if target.core.startswith("Cortex"):
             self.cpu.append("-mthumb")
 
@@ -71,7 +75,7 @@ class GCC(mbedToolchain):
         self.asm = [main_cc, "-x", "assembler-with-cpp"] + common_flags
         if not "analyze" in self.options:
             self.cc  = [main_cc, "-std=gnu99"] + common_flags
-            self.cppc =[main_cppc, "-std=gnu++98", "-fno-rtti"] + common_flags
+            self.cppc =[main_cppc, "-std=gnu++0x", "-fno-rtti"] + common_flags
         else:
             self.cc  = [join(GOANNA_PATH, "goannacc"), "--with-cc=" + main_cc.replace('\\', '/'), "-std=gnu99", "--dialect=gnu", '--output-format="%s"' % self.GOANNA_FORMAT] + common_flags
             self.cppc= [join(GOANNA_PATH, "goannac++"), "--with-cxx=" + main_cppc.replace('\\', '/'), "-std=gnu++98", "-fno-rtti", "--dialect=gnu", '--output-format="%s"' % self.GOANNA_FORMAT] + common_flags
@@ -244,3 +248,15 @@ class GCC_CW_EWL(GCC_CW):
 class GCC_CW_NEWLIB(GCC_CW):
     def __init__(self, target, options=None, notify=None, macros=None):
         GCC_CW.__init__(self, target, options, notify, macros)
+
+class MINGW32(GCC):
+    def __init__(self, target, options=None, notify=None, macros=None):
+        GCC.__init__(self, target, options, notify, macros, MINGW32_PATH)
+
+        self.cc[0] = self.cc[0].replace("arm-none-eabi-gcc","gcc")
+        self.cppc[0] = self.cppc[0].replace("arm-none-eabi-g++","g++")
+        self.asm[0] = self.asm[0].replace("arm-none-eabi-gcc","gcc")
+        self.ld[0] = self.ld[0].replace("arm-none-eabi-gcc","gcc")
+        self.ar = self.ar.replace("arm-none-eabi-ar","ar")
+        self.elf2bin = self.elf2bin.replace("arm-none-eabi-objcopy","objcopy")
+

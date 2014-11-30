@@ -13,33 +13,28 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "TimerEvent.h"
-//#include "cmsis.h"
+#ifndef MBED_GPIO_OBJECT_H
+#define MBED_GPIO_OBJECT_H
 
-#include <stddef.h>
+#include "mbed_assert.h"
 
-namespace mbed {
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-TimerEvent::TimerEvent() : event() {
-    us_ticker_set_handler((&TimerEvent::irq));
+typedef struct {
+    PinName  pin;
+} gpio_t;
+
+static inline void gpio_write(gpio_t *obj, int value) {
 }
 
-void TimerEvent::irq(uint32_t id) {
-    TimerEvent *timer_event = (TimerEvent*)id;
-    timer_event->handler();
+static inline int gpio_read(gpio_t *obj) {
+    return 0;
 }
 
-TimerEvent::~TimerEvent() {
-    remove();
+#ifdef __cplusplus
 }
+#endif
 
-// insert in to linked list
-void TimerEvent::insert(timestamp_t timestamp) {
-    us_ticker_insert_event(&event, timestamp, (uint32_t)this);
-}
-
-void TimerEvent::remove() {
-    us_ticker_remove_event(&event);
-}
-
-} // namespace mbed
+#endif

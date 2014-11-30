@@ -13,33 +13,38 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-#include "TimerEvent.h"
+#ifndef MBED_PINNAMES_H
+#define MBED_PINNAMES_H
+
 //#include "cmsis.h"
+#include <stdint.h>
 
-#include <stddef.h>
+#ifdef __cplusplus
+extern "C" {
+#endif
 
-namespace mbed {
+typedef enum {
+    PIN_INPUT,
+    PIN_OUTPUT
+} PinDirection;
 
-TimerEvent::TimerEvent() : event() {
-    us_ticker_set_handler((&TimerEvent::irq));
+typedef enum {
+    // Not connected
+	PIN1 = 0,
+	PIN2 = 1,
+    NC = (int)0xFFFFFFFF,
+} PinName;
+
+/* Pull modes for input pins */
+typedef enum {
+    PullNone = 0,
+    PullDown = 2,
+    PullUp = 3,
+    PullDefault = PullUp
+} PinMode;
+
+#ifdef __cplusplus
 }
+#endif
 
-void TimerEvent::irq(uint32_t id) {
-    TimerEvent *timer_event = (TimerEvent*)id;
-    timer_event->handler();
-}
-
-TimerEvent::~TimerEvent() {
-    remove();
-}
-
-// insert in to linked list
-void TimerEvent::insert(timestamp_t timestamp) {
-    us_ticker_insert_event(&event, timestamp, (uint32_t)this);
-}
-
-void TimerEvent::remove() {
-    us_ticker_remove_event(&event);
-}
-
-} // namespace mbed
+#endif

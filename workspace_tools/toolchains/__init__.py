@@ -185,7 +185,7 @@ LEGACY_IGNORE_DIRS = set([
 LEGACY_TOOLCHAIN_NAMES = {
     'ARM_STD':'ARM', 'ARM_MICRO': 'uARM',
     'GCC_ARM': 'GCC_ARM', 'GCC_CR': 'GCC_CR', 'GCC_CS': 'GCC_CS',
-    'IAR': 'IAR',
+    'IAR': 'IAR', 'MINGW32':'MINGW32',
 }
 
 
@@ -705,7 +705,7 @@ class mbedToolchain:
 
 from workspace_tools.settings import ARM_BIN
 from workspace_tools.settings import GCC_ARM_PATH, GCC_CR_PATH, GCC_CS_PATH, CW_EWL_PATH, CW_GCC_PATH
-from workspace_tools.settings import IAR_PATH
+from workspace_tools.settings import IAR_PATH, MINGW32_PATH
 
 TOOLCHAIN_BIN_PATH = {
     'ARM': ARM_BIN,
@@ -715,11 +715,12 @@ TOOLCHAIN_BIN_PATH = {
     'GCC_CR': GCC_CR_PATH,
     'GCC_CW_EWL': CW_EWL_PATH,
     'GCC_CW_NEWLIB': CW_GCC_PATH,
-    'IAR': IAR_PATH
+    'IAR': IAR_PATH,
+    'MINGW32': MINGW32_PATH
 }
 
 from workspace_tools.toolchains.arm import ARM_STD, ARM_MICRO
-from workspace_tools.toolchains.gcc import GCC_ARM, GCC_CS, GCC_CR
+from workspace_tools.toolchains.gcc import GCC_ARM, GCC_CS, GCC_CR, MINGW32
 from workspace_tools.toolchains.gcc import GCC_CW_EWL, GCC_CW_NEWLIB
 from workspace_tools.toolchains.iar import IAR
 
@@ -731,7 +732,8 @@ TOOLCHAIN_CLASSES = {
     'GCC_CR': GCC_CR,
     'GCC_CW_EWL': GCC_CW_EWL,
     'GCC_CW_NEWLIB': GCC_CW_NEWLIB,
-    'IAR': IAR
+    'IAR': IAR,
+    'MINGW32': MINGW32
 }
 
 TOOLCHAINS = set(TOOLCHAIN_CLASSES.keys())
